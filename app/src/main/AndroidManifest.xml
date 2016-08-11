@@ -5,23 +5,23 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@drawable/touhouicon"
+        android:label="東方クイズ"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
-            android:label="@string/app_name">
+            android:label="東方クイズ">
         </activity>
         <activity
             android:name=".ResultActivity"
             android:launchMode="singleTask"
-            android:label="@string/app_name">
+            android:label="東方クイズ">
         </activity>
         <activity
             android:name=".StartActivity"
             android:launchMode="singleTask"
-            android:label="@string/app_name">
+            android:label="東方クイズ">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

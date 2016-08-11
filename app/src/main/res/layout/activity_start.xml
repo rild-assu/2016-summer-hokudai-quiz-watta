@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="東方厨への挑戦状（全10問）"
+        android:text="東方厨への挑戦状（全15問）"
         android:id="@+id/textView"
         android:textSize="40sp"
         android:layout_marginTop="160dp"
