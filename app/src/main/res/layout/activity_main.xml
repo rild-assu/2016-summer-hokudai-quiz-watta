@@ -40,6 +40,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"/>
 
+            <include layout="@layout/custom_progressbar"/>
+
             <ProgressBar
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
@@ -62,7 +64,8 @@
                 android:layout_weight="1"
                 android:textSize="20sp"
                 android:id="@+id/button1"
-                android:onClick="click"/>
+                android:onClick="click"
+                android:background="#f7f44e" />
 
             <Button
                 android:text="Answer2"
@@ -71,7 +74,8 @@
                 android:layout_weight="1"
                 android:textSize="20sp"
                 android:id="@+id/button2"
-                android:onClick="click"/>
+                android:onClick="click"
+                android:background="#f93232" />
 
             <Button
                 android:text="Answer3"
@@ -80,7 +84,8 @@
                 android:layout_weight="1"
                 android:textSize="20sp"
                 android:id="@+id/button3"
-                android:onClick="click"/>
+                android:onClick="click"
+                android:background="#5ff2f2" />
 
             <TextView
                 android:layout_width="wrap_content"

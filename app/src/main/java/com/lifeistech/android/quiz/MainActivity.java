@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +39,10 @@ public class MainActivity extends ActionBarActivity {
     // 正解を選んだ数
     private int correct_num;
 
+    //CustomProgressBar
+    View blank;
+    View gifProgressBar;
+
     // TODO [01] ここから
     private TextView question;
     private TextView status;
@@ -48,6 +56,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createCustomProgressBar();
         handler = new Handler();
 
         // TODO [02]ここから
@@ -69,12 +78,12 @@ public class MainActivity extends ActionBarActivity {
     private void makeQuestions() {
         // TODO [03] ここから
         Question q1 = new Question(R.drawable.japan,"日本の首都は？（腕試し！）","東京","京都","大阪");
-        Question q2 = new Question(R.drawable.touhou2,"東方ploject第１２回（最新）の人妖部門での第一位は誰でしょう？","博麗　霊夢","霧雨　魔理沙","フランドール　スカーレット");
+        Question q2 = new Question(R.drawable.touhou2,"東方ploject第１２回（最新）の人妖部門での第一位は誰でしょう？","博麗　霊夢","霧雨　魔理沙","フランドール・スカーレット");
         Question q3 = new Question(R.drawable.touhou3,"では、音楽部門での一位の曲は、次のうちどれでしょう？","U.N オーエンは彼女なのか？","亡き王女のためのセプテット","優雅に咲かせ、墨染の桜 〜Border of life");
         Question q4 = new Question(R.drawable.touhou4,"東方紅魔郷３面ボスの（音楽）テーマは？","明治１７年の上海アリス","明治１６年の上海アリス","明治１８年の上海アリス");
-        Question q5 = new Question(R.drawable.touhou5,"おまけ　( ﾟ∀ﾟ)o彡ﾟ←誰に向かってやってる？","え〜りん","衣玖サン","レミリア　スカーレット");
-        Question q6 = new Question(R.drawable.touhou6,"『あなたが、コンティニュー出来ないのさ！』　この台詞のキャラは？","フランドール　スカーレット","レミリア　スカーレット","チルノ");
-        Question q7 = new Question(R.drawable.touhou7,"『あなたは今まで食べてきたパンの枚数を覚えてるの？』　この台詞のキャラは？","レミリア　スカーレット","博麗　霊夢","西行寺　幽々子");
+        Question q5 = new Question(R.drawable.touhou5,"おまけ　( ﾟ∀ﾟ)o彡ﾟ←誰に向かってやってる？","え〜りん","衣玖サン","レミリア・スカーレット");
+        Question q6 = new Question(R.drawable.touhou6,"『あなたが、コンティニュー出来ないのさ！』　この台詞のキャラは？","フランドール・スカーレット","レミリア・スカーレット","チルノ");
+        Question q7 = new Question(R.drawable.touhou7,"『あなたは今まで食べてきたパンの枚数を覚えてるの？』　この台詞のキャラは？","レミリア・スカーレット","博麗　霊夢","西行寺　幽々子");
         Question q8 = new Question(R.drawable.touhou8,"『一つや二つ・・・ 結界は、そんなに少ないと思って？』　この台詞のキャラは？","八雲　紫","八雲　藍","西行寺　幽々子");
         Question q9 = new Question(R.drawable.touhou9,"永夜抄4面ボス霧雨魔理沙のﾃｰﾏは？","恋色マスタースパーク","魔女達の舞踏会","メイガスナイト");
         Question q10 = new Question(R.drawable.touhou10,"「広有射怪鳥事」をひらがなで表すと？","ひろありけちょうをいること","こうゆうしゃかいちょうじ","きれぬものなどあんまりない！");
@@ -85,9 +94,9 @@ public class MainActivity extends ActionBarActivity {
         Question q15 = new Question(R.drawable.touhou15,"特別問題！　製作者の好きなキャラは？","霧雨　魔理沙","フランドール　スカーレット","ケンシロウ");
         Question q16 = new Question(R.drawable.sazaesann,"実際に、長谷川町子によって描かれたタラちゃんの妹の名前は？","ヒトデ","ホタテ","イルカ");
         Question q17 = new Question(R.drawable.benntou,"肖像画のベートーベンが不機嫌な理由は？","家政婦の料理がまずかったため。","寝不足のため。","そんな気分じゃなかったため");
-//        Question q18 = new Question(R.drawable.touhou18,"母の日に贈る花で有名な「カーネーション」。 さて、黄色のカーネーションの花言葉は次のうちどれ？
-//        Question q19 = new Question(R.drawable.touhou19,"","","","");
-//        Question q20 = new Question(R.drawable.touhou20,"","","","");
+        Question q18 = new Question(R.drawable.hana,"母の日に贈る花で有名な「カーネーション」。さて、黄色のカーネーションの花言葉は次のうちどれ？","軽蔑","家族愛","嫉妬");
+        Question q19 = new Question(R.drawable.touhou16,"水の属性を持つ「中心」と言えば誰？","森近　霖之助","河城　にとり","キスメ");
+        Question q20 = new Question(R.drawable.touhou17,"魔理沙が強力な魔法を使える理由は？（超難問）","魔法の森の幻覚作用がある茸","アリスが作ったポーションを魔理沙が間違えて飲んだから。","霊夢の作った秘薬を魔理沙が飲んだから。");
 
 
 
@@ -173,44 +182,45 @@ public class MainActivity extends ActionBarActivity {
      * 1問ごとの制限時間を管理するスレッドを起動する
      */
     private void startTimeLimitThread() {
-        rest_time = time * 100;
-        progress.setProgress(rest_time);
-        // このThreadが担当する問題番号
-        final int local_current = current;
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                while (rest_time >= 0) {
-                    if (local_current != current) {
-                        // すでにボタンをタップして次の問題に進んでいる
-                        return;
-                    }
-                    try {
-                        // 10ミリ秒待機
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            rest_time -= 1;
-                            progress.setProgress(rest_time);
-                        }
-                    });
-                }
-                // まだ問題に解答していない場合
-                if (local_current == current) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            nextQuestion();
-                        }
-                    });
-                }
-            }
-        };
-        t.start();
+//        rest_time = time * 100;
+//        progress.setProgress(rest_time);
+//        // このThreadが担当する問題番号
+//        final int local_current = current;
+//        Thread t = new Thread() {
+//            @Override
+//            public void run() {
+//                while (rest_time >= 0) {
+//                    if (local_current != current) {
+//                        // すでにボタンをタップして次の問題に進んでいる
+//                        return;
+//                    }
+//                    try {
+//                        // 10ミリ秒待機
+//                        Thread.sleep(10);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    handler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            rest_time -= 1;
+//                            progress.setProgress(rest_time);
+//                        }
+//                    });
+//                }
+//                // まだ問題に解答していない場合
+//                if (local_current == current) {
+//                    handler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            nextQuestion();
+//                        }
+//                    });
+//                }
+//            }
+//        };
+//        t.start();
+        shrinkStart();
     }
 
     /**
@@ -259,5 +269,40 @@ public class MainActivity extends ActionBarActivity {
             // リストをStringの配列にする
             return list.toArray(new String[3]);
         }
+    }
+
+    private void shrinkStart() {
+        blank.startAnimation(getWidthAnimation(blank, gifProgressBar));
+    }
+
+    private void createCustomProgressBar() {
+        blank = findViewById(R.id.blank);
+        gifProgressBar = findViewById(R.id.gif_progressbar);
+
+        ImageView imageView = (ImageView) findViewById(R.id.image_gif);
+        GlideDrawableImageViewTarget target = new GlideDrawableImageViewTarget(imageView);
+        Glide.with(this).load(R.raw.chirno_progress_material_iloveimg_cropped).into(target);
+    }
+
+    private WidthAnimation getWidthAnimation(View blank, final View gifProgressBar) {
+
+        WidthAnimation widthAnime = new WidthAnimation(blank, 0, 320);
+        widthAnime.setDuration(time * 1000);
+        widthAnime.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                gifProgressBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.progressbar_background));
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                gifProgressBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.progressbar_end_background));
+                nextQuestion();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+        return widthAnime;
     }
 }
